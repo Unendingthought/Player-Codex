@@ -43,8 +43,8 @@ body {
   background-attachment: fixed;
   color: var(--text-primary);
   font-family: var(--font-body);
-  font-size: 19px;
-  line-height: 1.85;
+  font-size: 20px;
+  line-height: 1.9;
   min-height: 100vh;
   cursor: default;
 }
@@ -98,7 +98,7 @@ nav {
 
 .nav-links a {
   font-family: var(--font-heading);
-  font-size: 0.62rem;
+  font-size: 0.72rem;
   letter-spacing: 3px;
   text-transform: uppercase;
   color: var(--text-secondary);
@@ -412,15 +412,15 @@ nav {
 .entry-body p {
   color: var(--text-primary);
   margin-bottom: 1rem;
-  font-size: 1.05rem;
-  line-height: 1.85;
+  font-size: 1.1rem;
+  line-height: 1.9;
   text-align: left;
 }
 .entry-body p:last-child { margin-bottom: 0; }
 
 .entry-body h4 {
   font-family: var(--font-heading);
-  font-size: 0.68rem;
+  font-size: 0.78rem;
   letter-spacing: 3px;
   color: var(--gold-dim);
   text-transform: uppercase;
@@ -434,7 +434,7 @@ nav {
   border-left: 3px solid var(--ember-dim);
   padding: 1rem 1.2rem;
   margin-top: 1rem;
-  font-size: 1rem;
+  font-size: 1.05rem;
   font-style: italic;
   color: #d4a870;
 }
@@ -444,7 +444,7 @@ nav {
   display: block;
   font-family: var(--font-heading);
   font-style: normal;
-  font-size: 0.58rem;
+  font-size: 0.68rem;
   letter-spacing: 3px;
   color: var(--ember-dim);
   text-transform: uppercase;
@@ -464,9 +464,9 @@ nav {
 
 .section-divider-label {
   font-family: var(--font-heading);
-  font-size: 0.62rem;
+  font-size: 0.72rem;
   letter-spacing: 4px;
-  color: var(--text-faint);
+  color: var(--text-secondary);
   text-transform: uppercase;
   white-space: nowrap;
 }
@@ -484,14 +484,14 @@ nav {
   border-top: 2px solid var(--gold-dim);
   padding: 1.2rem 1.5rem;
   margin-bottom: 2.5rem;
-  font-size: 1rem;
+  font-size: 1.05rem;
   color: var(--text-primary);
   font-style: italic;
 }
 .codex-note strong {
   font-family: var(--font-heading);
   font-style: normal;
-  font-size: 0.62rem;
+  font-size: 0.72rem;
   letter-spacing: 2px;
   color: var(--gold-dim);
   display: block;
