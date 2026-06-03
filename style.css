@@ -317,7 +317,7 @@ nav {
 .page-intro {
   font-style: italic;
   color: var(--text-secondary);
-  max-width: 640px;
+  max-width: 1100px;
   margin: 0 auto;
   font-size: 0.95rem;    /* 38px — slightly smaller than body, italic intro */
   line-height: 1.8;
@@ -327,9 +327,9 @@ nav {
 
 /* ── CONTENT AREA ── */
 .content {
-  max-width: 900px;
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 3rem 2rem 5rem;
+  padding: 3rem 3rem 5rem;
 }
 
 /* ── ENTRY BLOCKS ── */
