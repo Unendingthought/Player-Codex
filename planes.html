@@ -6,67 +6,73 @@
   <title>Planes — Cruinne</title>
   <link rel="stylesheet" href="style.css">
   <style>
-    /* stacked planes diagram */
-    .planes-diagram {
-      display: flex;
-      justify-content: center;
-      padding: 2.5rem 1rem 1.5rem;
+    /* stacked planes overview — CSS list replacing SVG */
+    .planes-stack {
+      max-width: 620px;
+      margin: 2rem auto 0;
+      border: 1px solid var(--border);
+      border-bottom: none;
       opacity: 0;
-      animation: revealFade 1s ease 0.6s forwards;
+      animation: revealFade 0.8s ease 0.6s forwards;
     }
 
-    .stack-container {
-      position: relative;
-      width: 320px;
-      height: 280px;
-      perspective: 600px;
-    }
-
-    .plane-slice {
-      position: absolute;
-      left: 0; right: 0;
-      height: 36px;
-      border: 1px solid rgba(200,160,64,0.2);
+    .stack-row {
       display: flex;
       align-items: center;
-      padding: 0 1rem;
+      gap: 1rem;
+      padding: 0.85rem 1.4rem;
+      border-bottom: 1px solid var(--border);
+      transition: background 0.2s;
+    }
+    .stack-row:hover { background: rgba(200,160,64,0.04); }
+    .stack-row.stack-highlight {
+      background: rgba(200,160,64,0.07);
+      border-left: 3px solid var(--gold-dim);
+      padding-left: calc(1.4rem - 2px);
+    }
+
+    .stack-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .stack-name {
       font-family: var(--font-heading);
-      font-size: 0.6rem;
+      font-size: 0.78rem;
       letter-spacing: 2px;
       text-transform: uppercase;
-      transition: border-color 0.25s, background 0.25s;
-      cursor: default;
+      color: var(--parchment);
+      flex: 1;
     }
-    .plane-slice:hover {
-      border-color: rgba(200,160,64,0.5);
-      z-index: 10;
-    }
-    .plane-slice .slice-dot {
-      width: 6px; height: 6px; border-radius: 50%;
-      margin-right: 0.6rem; flex-shrink: 0;
-    }
-    .plane-slice .slice-label { flex: 1; }
-    .plane-slice .slice-sub {
-      font-style: italic;
+    .stack-highlight .stack-name { color: var(--gold); }
+    .stack-sub {
       font-family: var(--font-body);
-      font-size: 0.65rem;
-      color: var(--text-faint);
-      letter-spacing: 0;
-      text-transform: none;
-      margin-left: 0.5rem;
+      font-style: italic;
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      text-align: right;
     }
 
-    /* offset stacking */
-    .ps-0  { top: 0;   background: rgba(30,50,80,0.35); left: 10px; right: 10px; }
-    .ps-1  { top: 30px; background: rgba(40,20,60,0.35); left: 6px; right: 6px; }
-    .ps-2  { top: 60px; background: rgba(80,30,10,0.35); left: 8px; right: 8px; }
-    .ps-3  { top: 90px; background: rgba(20,60,30,0.35); left: 4px; right: 4px; }
-    .ps-4  { top: 120px; background: rgba(120,100,20,0.4); left: 0; right: 0; border: 1px solid rgba(200,160,64,0.4); }
-    .ps-5  { top: 150px; background: rgba(60,80,20,0.35); left: 4px; right: 4px; }
-    .ps-6  { top: 180px; background: rgba(20,40,80,0.35); left: 6px; right: 6px; }
-    .ps-7  { top: 210px; background: rgba(40,10,10,0.35); left: 8px; right: 8px; }
+    .sd-upper    { background: #6080d0; box-shadow: 0 0 6px rgba(80,100,200,0.5); }
+    .sd-feywild  { background: #60a050; box-shadow: 0 0 6px rgba(80,160,60,0.5); }
+    .sd-hells    { background: #c03030; box-shadow: 0 0 6px rgba(180,30,30,0.5); }
+    .sd-shadow   { background: #606888; box-shadow: 0 0 6px rgba(80,90,140,0.4); }
+    .sd-material { background: #c8a040; box-shadow: 0 0 8px rgba(200,160,64,0.7); }
+    .sd-elemental{ background: #208080; box-shadow: 0 0 6px rgba(20,120,120,0.5); }
+    .sd-abyss    { background: #7030a0; box-shadow: 0 0 6px rgba(100,30,160,0.5); }
+    .sd-astral   { background: #4060a0; box-shadow: 0 0 6px rgba(60,80,160,0.4); }
 
-    .ps-4 .slice-label { color: var(--gold); }
+    .stack-label {
+      font-family: var(--font-heading);
+      font-size: 0.58rem;
+      letter-spacing: 3px;
+      color: var(--text-faint);
+      text-transform: uppercase;
+      text-align: center;
+      padding: 0.6rem;
+      border-bottom: 1px solid var(--border);
+      background: rgba(0,0,0,0.2);
+    }
 
     /* three moons note */
     .moons-note {
@@ -94,8 +100,8 @@
     .moon-maor  { background: radial-gradient(circle at 35% 35%, #fff8e0, #c8b060); box-shadow: 0 0 10px rgba(200,180,80,0.4); }
     .moon-crael { background: radial-gradient(circle at 35% 35%, #ff7050, #8b1a08); box-shadow: 0 0 10px rgba(200,60,30,0.4); }
     .moon-sioth { background: radial-gradient(circle at 35% 35%, #c8d0e0, #505870); box-shadow: 0 0 8px rgba(140,150,180,0.3); }
-    .moon-name  { font-family: var(--font-heading); font-size: 0.72rem; letter-spacing: 2px; color: var(--parchment); margin-bottom: 0.2rem; }
-    .moon-desc  { font-size: 0.88rem; color: var(--text-secondary); line-height: 1.5; }
+    .moon-name  { font-family: var(--font-heading); font-size: 0.78rem; letter-spacing: 2px; color: var(--parchment); margin-bottom: 0.3rem; }
+    .moon-desc  { font-size: 0.95rem; color: var(--text-primary); line-height: 1.6; }
 
     /* plane entries: different accent colours */
     .entry.upper    { border-left-color: #6080d0; }
@@ -158,49 +164,48 @@
     <p class="page-intro">Every plane is a planet. They share the same position in space, stacked on top of one another, each expressing the same location differently.</p>
   </div>
 
-  <!-- STACK DIAGRAM -->
-  <div class="planes-diagram">
-    <div class="stack-container" aria-label="Diagram of coincident planes stacked in space">
-      <div class="plane-slice ps-0">
-        <span class="slice-dot" style="background:#6080d0; box-shadow: 0 0 5px rgba(80,100,200,0.5)"></span>
-        <span class="slice-label" style="color:#8090e0">Upper Planes</span>
-        <span class="slice-sub">heavens</span>
-      </div>
-      <div class="plane-slice ps-1">
-        <span class="slice-dot" style="background:#60a050; box-shadow: 0 0 5px rgba(80,160,60,0.5)"></span>
-        <span class="slice-label" style="color:#80c070">Feywild</span>
-        <span class="slice-sub">the summer planet</span>
-      </div>
-      <div class="plane-slice ps-2">
-        <span class="slice-dot" style="background:#a02020; box-shadow: 0 0 5px rgba(160,20,20,0.5)"></span>
-        <span class="slice-label" style="color:#e04040">Nine Hells</span>
-        <span class="slice-sub">infernal coincident</span>
-      </div>
-      <div class="plane-slice ps-3">
-        <span class="slice-dot" style="background:#505870; box-shadow: 0 0 5px rgba(80,90,120,0.4)"></span>
-        <span class="slice-label" style="color:#8090c0">Shadowfell</span>
-        <span class="slice-sub">the dark mirror</span>
-      </div>
-      <div class="plane-slice ps-4">
-        <span class="slice-dot" style="background:#c8a040; box-shadow: 0 0 6px rgba(200,160,64,0.6)"></span>
-        <span class="slice-label">Cruinne</span>
-        <span class="slice-sub">the material plane · you are here</span>
-      </div>
-      <div class="plane-slice ps-5">
-        <span class="slice-dot" style="background:#208080; box-shadow: 0 0 5px rgba(20,120,120,0.5)"></span>
-        <span class="slice-label" style="color:#30c0c0">Elemental Planes</span>
-        <span class="slice-sub">fire · water · air · earth</span>
-      </div>
-      <div class="plane-slice ps-6">
-        <span class="slice-dot" style="background:#602080; box-shadow: 0 0 5px rgba(80,20,120,0.5)"></span>
-        <span class="slice-label" style="color:#9040d0">The Abyss</span>
-        <span class="slice-sub">demonic coincident</span>
-      </div>
-      <div class="plane-slice ps-7">
-        <span class="slice-dot" style="background:#4060a0; box-shadow: 0 0 5px rgba(60,90,160,0.4)"></span>
-        <span class="slice-label" style="color:#6090e0">The Astral</span>
-        <span class="slice-sub">the Silver Deep · between everything</span>
-      </div>
+  <!-- PLANES STACK -->
+  <div class="planes-stack">
+    <div class="stack-label">The Coincident Worlds — outermost to innermost</div>
+    <div class="stack-row">
+      <span class="stack-dot sd-upper"></span>
+      <span class="stack-name">Upper Planes</span>
+      <span class="stack-sub">the heavens</span>
+    </div>
+    <div class="stack-row">
+      <span class="stack-dot sd-feywild"></span>
+      <span class="stack-name">The Feywild</span>
+      <span class="stack-sub">the summer planet</span>
+    </div>
+    <div class="stack-row">
+      <span class="stack-dot sd-hells"></span>
+      <span class="stack-name">The Nine Hells</span>
+      <span class="stack-sub">infernal coincident</span>
+    </div>
+    <div class="stack-row">
+      <span class="stack-dot sd-shadow"></span>
+      <span class="stack-name">The Shadowfell</span>
+      <span class="stack-sub">the dark mirror</span>
+    </div>
+    <div class="stack-row stack-highlight">
+      <span class="stack-dot sd-material"></span>
+      <span class="stack-name">Cruinne</span>
+      <span class="stack-sub">the material plane · you are here</span>
+    </div>
+    <div class="stack-row">
+      <span class="stack-dot sd-elemental"></span>
+      <span class="stack-name">Elemental Planes</span>
+      <span class="stack-sub">fire · water · air · earth</span>
+    </div>
+    <div class="stack-row">
+      <span class="stack-dot sd-abyss"></span>
+      <span class="stack-name">The Abyss</span>
+      <span class="stack-sub">demonic coincident</span>
+    </div>
+    <div class="stack-row">
+      <span class="stack-dot sd-astral"></span>
+      <span class="stack-name">The Silver Deep</span>
+      <span class="stack-sub">the Astral · between everything</span>
     </div>
   </div>
 
