@@ -30,7 +30,7 @@
 }
 
 html {
-  font-size: 20px; /* 1rem = 20px. All rem values scale from here. */
+  font-size: 30px; /* 1rem = 30px. All rem values scale from here. */
   scroll-behavior: smooth;
 }
 
@@ -76,7 +76,7 @@ nav {
 
 .nav-brand {
   font-family: var(--font-heading);
-  font-size: 0.75rem;   /* 15px */
+  font-size: 0.5rem;   /* 15px */
   letter-spacing: 4px;
   color: var(--gold-dim);
   text-transform: uppercase;
@@ -94,7 +94,7 @@ nav {
 
 .nav-links a {
   font-family: var(--font-heading);
-  font-size: 0.75rem;   /* 15px */
+  font-size: 0.5rem;   /* 15px */
   letter-spacing: 3px;
   text-transform: uppercase;
   color: var(--text-secondary);
@@ -159,7 +159,7 @@ nav {
 
 .hero-eyebrow {
   font-family: var(--font-heading);
-  font-size: 0.7rem;     /* 14px */
+  font-size: 0.47rem;    /* ~14px */
   letter-spacing: 6px;
   color: var(--text-faint);
   text-transform: uppercase;
@@ -250,7 +250,7 @@ nav {
 
 .lore-card-title {
   font-family: var(--font-heading);
-  font-size: 0.85rem;    /* 17px */
+  font-size: 0.57rem;    /* 17px */
   letter-spacing: 3px;
   text-transform: uppercase;
   color: var(--parchment);
@@ -269,7 +269,7 @@ nav {
   position: absolute;
   bottom: 1rem; right: 1.2rem;
   font-family: var(--font-heading);
-  font-size: 0.65rem;
+  font-size: 0.43rem;
   letter-spacing: 2px;
   color: var(--text-faint);
   text-transform: uppercase;
@@ -295,7 +295,7 @@ nav {
 
 .page-label {
   font-family: var(--font-heading);
-  font-size: 0.7rem;     /* 14px */
+  font-size: 0.47rem;    /* ~14px */
   letter-spacing: 6px;
   color: var(--text-faint);
   text-transform: uppercase;
@@ -379,7 +379,7 @@ nav {
 .entry-tag {
   margin-left: auto;
   font-family: var(--font-heading);
-  font-size: 0.65rem;    /* 13px */
+  font-size: 0.43rem;    /* 13px */
   letter-spacing: 2px;
   color: var(--text-faint);
   text-transform: uppercase;
@@ -404,7 +404,7 @@ nav {
 
 .entry-body h4 {
   font-family: var(--font-heading);
-  font-size: 0.78rem;    /* 15.6px */
+  font-size: 0.52rem;    /* ~15.6px */
   letter-spacing: 3px;
   color: var(--gold-dim);
   text-transform: uppercase;
@@ -427,7 +427,7 @@ nav {
   display: block;
   font-family: var(--font-heading);
   font-style: normal;
-  font-size: 0.68rem;    /* 13.6px */
+  font-size: 0.45rem;    /* ~13.5px */
   letter-spacing: 3px;
   color: var(--ember-dim);
   text-transform: uppercase;
@@ -447,7 +447,7 @@ nav {
 
 .section-divider-label {
   font-family: var(--font-heading);
-  font-size: 0.75rem;    /* 15px */
+  font-size: 0.5rem;     /* 15px */
   letter-spacing: 4px;
   color: var(--text-secondary);
   text-transform: uppercase;
@@ -473,7 +473,7 @@ nav {
 .codex-note strong {
   font-family: var(--font-heading);
   font-style: normal;
-  font-size: 0.72rem;    /* 14.4px */
+  font-size: 0.48rem;    /* ~14.4px */
   letter-spacing: 2px;
   color: var(--gold-dim);
   display: block;
@@ -487,7 +487,7 @@ footer {
   padding: 2rem;
   text-align: center;
   font-family: var(--font-heading);
-  font-size: 0.65rem;    /* 13px */
+  font-size: 0.43rem;    /* 13px */
   letter-spacing: 3px;
   color: var(--text-faint);
   text-transform: uppercase;
