@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The World of Cruinne</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Landing-specific: three moons */
+    .moons {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .moon {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0;
+      animation: moonRise 2s var(--ease-out) forwards;
+    }
+    .moon-maor {
+      width: 14px; height: 14px;
+      background: radial-gradient(circle at 35% 35%, #fff8e8, #c8b068);
+      box-shadow: 0 0 20px rgba(200,180,100,0.4), 0 0 60px rgba(200,180,100,0.15);
+      top: 18%; right: 18%;
+      animation-delay: 1.6s;
+    }
+    .moon-crael {
+      width: 8px; height: 8px;
+      background: radial-gradient(circle at 35% 35%, #ff8060, #8b2010);
+      box-shadow: 0 0 16px rgba(200,60,40,0.5), 0 0 40px rgba(200,60,40,0.15);
+      top: 14%; right: 24%;
+      animation-delay: 1.8s;
+    }
+    .moon-sioth {
+      width: 6px; height: 6px;
+      background: radial-gradient(circle at 35% 35%, #d0d8e8, #606878);
+      box-shadow: 0 0 10px rgba(160,170,200,0.3);
+      top: 22%; right: 21%;
+      animation-delay: 2s;
+    }
+    @keyframes moonRise {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* scroll hint */
+    .scroll-hint {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: var(--font-heading);
+      font-size: 0.55rem;
+      letter-spacing: 4px;
+      color: var(--text-faint);
+      text-transform: uppercase;
+      opacity: 0;
+      animation: revealFade 1s ease 2.5s forwards;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .scroll-hint::after {
+      content: '';
+      display: block;
+      width: 1px;
+      height: 30px;
+      background: linear-gradient(to bottom, var(--text-faint), transparent);
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.3; transform: scaleY(1); }
+      50% { opacity: 0.8; transform: scaleY(1.2); transform-origin: top; }
+    }
+
+    /* bottom lore section */
+    .lore-excerpt {
+      padding: 4rem 2rem;
+      max-width: 700px;
+      margin: 0 auto;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.8s ease, transform 0.8s var(--ease-out);
+    }
+    .lore-excerpt.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .lore-excerpt p {
+      color: var(--text-secondary);
+      font-style: italic;
+      font-size: 1.05rem;
+      line-height: 1.9;
+      margin-bottom: 1rem;
+    }
+    .lore-excerpt .source {
+      font-family: var(--font-heading);
+      font-size: 0.6rem;
+      letter-spacing: 3px;
+      color: var(--text-faint);
+      text-transform: uppercase;
+      font-style: normal;
+    }
+
+    /* three-column fact strip */
+    .fact-strip {
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      margin: 0;
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.6s ease, transform 0.6s var(--ease-out);
+    }
+    .fact-strip.visible { opacity: 1; transform: translateY(0); }
+    .fact {
+      padding: 2rem 1.5rem;
+      text-align: center;
+      border-right: 1px solid var(--border);
+    }
+    .fact:last-child { border-right: none; }
+    .fact-value {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      color: var(--gold);
+      display: block;
+      margin-bottom: 0.3rem;
+    }
+    .fact-label {
+      font-family: var(--font-heading);
+      font-size: 0.58rem;
+      letter-spacing: 3px;
+      color: var(--text-faint);
+      text-transform: uppercase;
+    }
+    @media (max-width: 600px) {
+      .fact-strip { grid-template-columns: 1fr; }
+      .fact { border-right: none; border-bottom: 1px solid var(--border); }
+      .fact:last-child { border-bottom: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVIGATION -->
+<nav>
+  <a class="nav-brand" href="index.html">Cruinne</a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="active">Home</a></li>
+    <li><a href="regions.html">Regions</a></li>
+    <li><a href="planes.html">Planes</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="page">
+  <section class="hero">
+    <div class="hero-ring"></div>
+    <div class="moons">
+      <div class="moon moon-maor" title="Maor — the Lantern"></div>
+      <div class="moon moon-crael" title="Crael — the Ember"></div>
+      <div class="moon moon-sioth" title="Síoth — the Ghost Moon"></div>
+    </div>
+
+    <div class="hero-eyebrow">Codex Cruinnae · Third Edition</div>
+
+    <h1 class="hero-title">The World of Cruinne</h1>
+
+    <p class="hero-subtitle">Or at least what you know about it</p>
+
+    <div class="hero-rule"></div>
+
+    <div class="lore-cards">
+      <a href="regions.html" class="lore-card">
+        <span class="lore-card-glyph">⬡</span>
+        <span class="lore-card-title">Regions</span>
+        <p class="lore-card-desc">The four continents of the Wheel, the Cradle Sea at its heart, and the deep Wrack beyond all maps.</p>
+        <span class="lore-card-arrow">Enter →</span>
+      </a>
+      <a href="planes.html" class="lore-card">
+        <span class="lore-card-glyph">✦</span>
+        <span class="lore-card-title">Planes</span>
+        <p class="lore-card-desc">The coincident worlds that share Cruinne's position in the Silver Deep — and what separates them.</p>
+        <span class="lore-card-arrow">Enter →</span>
+      </a>
+    </div>
+
+    <div class="scroll-hint">Scroll</div>
+  </section>
+
+  <!-- FACT STRIP -->
+  <div class="fact-strip" id="factStrip">
+    <div class="fact">
+      <span class="fact-value">Three</span>
+      <span class="fact-label">Moons in the sky</span>
+    </div>
+    <div class="fact">
+      <span class="fact-value">Four</span>
+      <span class="fact-label">Continents on the Wheel</span>
+    </div>
+    <div class="fact">
+      <span class="fact-value">???</span>
+      <span class="fact-label">Gods watching</span>
+    </div>
+  </div>
+
+  <!-- LORE EXCERPT -->
+  <div class="lore-excerpt" id="loreExcerpt">
+    <div class="ornament">— ✦ —</div>
+    <br>
+    <p>
+      Cruinne is a planet. A full, round, three-mooned planet occupying a fixed point in the Silver Deep.
+      The other planes exist as coincident worlds — each sharing the same position in space, each expressing
+      it differently. The mountains of the Feywild and the mountains of Cruinne are, broadly speaking,
+      the same mountains.
+    </p>
+    <p>
+      The gods protect the Wheel. They answer prayers, hold the line against incursion, and have been
+      here as long as anyone can remember. Whether that means they have always been here is a different
+      question. One that certain people have found very expensive to ask aloud.
+    </p>
+    <p class="source">— Wheel &amp; Wrack Touring Society, Third Edition</p>
+  </div>
+
+  <footer>
+    Codex Cruinnae &nbsp;·&nbsp; For the party's eyes only &nbsp;·&nbsp; Updated as truths are discovered
+  </footer>
+</div>
+
+<script>
+  // Scroll-triggered reveals
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('#factStrip, #loreExcerpt').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>

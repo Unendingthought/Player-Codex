@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Planes — Cruinne</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* stacked planes diagram */
+    .planes-diagram {
+      display: flex;
+      justify-content: center;
+      padding: 2.5rem 1rem 1.5rem;
+      opacity: 0;
+      animation: revealFade 1s ease 0.6s forwards;
+    }
+
+    .stack-container {
+      position: relative;
+      width: 320px;
+      height: 280px;
+      perspective: 600px;
+    }
+
+    .plane-slice {
+      position: absolute;
+      left: 0; right: 0;
+      height: 36px;
+      border: 1px solid rgba(200,160,64,0.2);
+      display: flex;
+      align-items: center;
+      padding: 0 1rem;
+      font-family: var(--font-heading);
+      font-size: 0.6rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      transition: border-color 0.25s, background 0.25s;
+      cursor: default;
+    }
+    .plane-slice:hover {
+      border-color: rgba(200,160,64,0.5);
+      z-index: 10;
+    }
+    .plane-slice .slice-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      margin-right: 0.6rem; flex-shrink: 0;
+    }
+    .plane-slice .slice-label { flex: 1; }
+    .plane-slice .slice-sub {
+      font-style: italic;
+      font-family: var(--font-body);
+      font-size: 0.65rem;
+      color: var(--text-faint);
+      letter-spacing: 0;
+      text-transform: none;
+      margin-left: 0.5rem;
+    }
+
+    /* offset stacking */
+    .ps-0  { top: 0;   background: rgba(30,50,80,0.35); left: 10px; right: 10px; }
+    .ps-1  { top: 30px; background: rgba(40,20,60,0.35); left: 6px; right: 6px; }
+    .ps-2  { top: 60px; background: rgba(80,30,10,0.35); left: 8px; right: 8px; }
+    .ps-3  { top: 90px; background: rgba(20,60,30,0.35); left: 4px; right: 4px; }
+    .ps-4  { top: 120px; background: rgba(120,100,20,0.4); left: 0; right: 0; border: 1px solid rgba(200,160,64,0.4); }
+    .ps-5  { top: 150px; background: rgba(60,80,20,0.35); left: 4px; right: 4px; }
+    .ps-6  { top: 180px; background: rgba(20,40,80,0.35); left: 6px; right: 6px; }
+    .ps-7  { top: 210px; background: rgba(40,10,10,0.35); left: 8px; right: 8px; }
+
+    .ps-4 .slice-label { color: var(--gold); }
+
+    /* three moons note */
+    .moons-note {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      margin: 1.5rem 0;
+      padding: 1.2rem 1.5rem;
+      background: rgba(26,18,8,0.6);
+      border: 1px solid var(--border);
+    }
+    .moon-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.8rem;
+      flex: 1;
+      min-width: 180px;
+    }
+    .moon-orb {
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-top: 0.1rem;
+    }
+    .moon-maor  { background: radial-gradient(circle at 35% 35%, #fff8e0, #c8b060); box-shadow: 0 0 10px rgba(200,180,80,0.4); }
+    .moon-crael { background: radial-gradient(circle at 35% 35%, #ff7050, #8b1a08); box-shadow: 0 0 10px rgba(200,60,30,0.4); }
+    .moon-sioth { background: radial-gradient(circle at 35% 35%, #c8d0e0, #505870); box-shadow: 0 0 8px rgba(140,150,180,0.3); }
+    .moon-name  { font-family: var(--font-heading); font-size: 0.72rem; letter-spacing: 2px; color: var(--parchment); margin-bottom: 0.2rem; }
+    .moon-desc  { font-size: 0.88rem; color: var(--text-secondary); line-height: 1.5; }
+
+    /* plane entries: different accent colours */
+    .entry.upper    { border-left-color: #6080d0; }
+    .entry.material { border-left-color: var(--gold-dim); }
+    .entry.feywild  { border-left-color: #60a050; }
+    .entry.shadow   { border-left-color: #505870; }
+    .entry.hells    { border-left-color: #a02020; }
+    .entry.abyss    { border-left-color: #602080; }
+    .entry.elemental{ border-left-color: #208080; }
+    .entry.astral   { border-left-color: #4060a0; }
+
+    .entry.upper:hover    { border-left-color: #8090e0; }
+    .entry.material:hover { border-left-color: var(--gold); }
+    .entry.feywild:hover  { border-left-color: #80d060; }
+    .entry.shadow:hover   { border-left-color: #8090c0; }
+    .entry.hells:hover    { border-left-color: #e04040; }
+    .entry.abyss:hover    { border-left-color: #9040d0; }
+    .entry.elemental:hover{ border-left-color: #30c0c0; }
+    .entry.astral:hover   { border-left-color: #6090e0; }
+
+    .unknown-block {
+      border: 1px dashed rgba(200,160,64,0.15);
+      padding: 1.5rem;
+      text-align: center;
+      color: var(--text-faint);
+      font-style: italic;
+      font-size: 0.9rem;
+      margin-bottom: 1.5rem;
+    }
+    .unknown-block strong {
+      display: block;
+      font-family: var(--font-heading);
+      font-style: normal;
+      font-size: 0.6rem;
+      letter-spacing: 3px;
+      color: rgba(200,160,64,0.2);
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVIGATION -->
+<nav>
+  <a class="nav-brand" href="index.html">Cruinne</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="regions.html">Regions</a></li>
+    <li><a href="planes.html" class="active">Planes</a></li>
+  </ul>
+</nav>
+
+<div class="page">
+
+  <!-- PAGE HERO -->
+  <div class="page-hero">
+    <div class="page-label">Codex Cruinnae · Cosmology</div>
+    <h1 class="page-title">The Planes</h1>
+    <p class="page-intro">Every plane is a planet. They share the same position in space, stacked on top of one another, each expressing the same location differently.</p>
+  </div>
+
+  <!-- STACK DIAGRAM -->
+  <div class="planes-diagram">
+    <div class="stack-container" aria-label="Diagram of coincident planes stacked in space">
+      <div class="plane-slice ps-0">
+        <span class="slice-dot" style="background:#6080d0; box-shadow: 0 0 5px rgba(80,100,200,0.5)"></span>
+        <span class="slice-label" style="color:#8090e0">Upper Planes</span>
+        <span class="slice-sub">heavens</span>
+      </div>
+      <div class="plane-slice ps-1">
+        <span class="slice-dot" style="background:#60a050; box-shadow: 0 0 5px rgba(80,160,60,0.5)"></span>
+        <span class="slice-label" style="color:#80c070">Feywild</span>
+        <span class="slice-sub">the summer planet</span>
+      </div>
+      <div class="plane-slice ps-2">
+        <span class="slice-dot" style="background:#a02020; box-shadow: 0 0 5px rgba(160,20,20,0.5)"></span>
+        <span class="slice-label" style="color:#e04040">Nine Hells</span>
+        <span class="slice-sub">infernal coincident</span>
+      </div>
+      <div class="plane-slice ps-3">
+        <span class="slice-dot" style="background:#505870; box-shadow: 0 0 5px rgba(80,90,120,0.4)"></span>
+        <span class="slice-label" style="color:#8090c0">Shadowfell</span>
+        <span class="slice-sub">the dark mirror</span>
+      </div>
+      <div class="plane-slice ps-4">
+        <span class="slice-dot" style="background:#c8a040; box-shadow: 0 0 6px rgba(200,160,64,0.6)"></span>
+        <span class="slice-label">Cruinne</span>
+        <span class="slice-sub">the material plane · you are here</span>
+      </div>
+      <div class="plane-slice ps-5">
+        <span class="slice-dot" style="background:#208080; box-shadow: 0 0 5px rgba(20,120,120,0.5)"></span>
+        <span class="slice-label" style="color:#30c0c0">Elemental Planes</span>
+        <span class="slice-sub">fire · water · air · earth</span>
+      </div>
+      <div class="plane-slice ps-6">
+        <span class="slice-dot" style="background:#602080; box-shadow: 0 0 5px rgba(80,20,120,0.5)"></span>
+        <span class="slice-label" style="color:#9040d0">The Abyss</span>
+        <span class="slice-sub">demonic coincident</span>
+      </div>
+      <div class="plane-slice ps-7">
+        <span class="slice-dot" style="background:#4060a0; box-shadow: 0 0 5px rgba(60,90,160,0.4)"></span>
+        <span class="slice-label" style="color:#6090e0">The Astral</span>
+        <span class="slice-sub">the Silver Deep · between everything</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <div class="codex-note">
+      <strong>Codex Note</strong>
+      This is what is known or theorised. The planes do not advertise their nature. Several entries below reflect confirmed observation. Others reflect scholarly consensus. The difference matters.
+    </div>
+
+    <!-- HOW IT WORKS -->
+    <div class="section-divider" id="sd1">
+      <span class="section-divider-label">How the Planes Work</span>
+      <div class="section-divider-line"></div>
+    </div>
+
+    <div class="entry material" data-reveal>
+      <div class="entry-header">
+        <span class="entry-name">The Coincident World Model</span>
+        <span class="entry-tag">Foundational Theory</span>
+      </div>
+      <div class="entry-body">
+        <p>Every plane is, in fact, a planet. Cruinne and every other plane occupy the <em>same point in space</em> simultaneously, stacked on top of one another like a very ambitious geological formation, each sharing the same position but expressing it differently.</p>
+        <p>The mountains of the Feywild and the mountains of Cruinne are, broadly speaking, the same mountains. Cruinne's mountains are simply the version that have not been made of crystallised moonlight or inhabited by beings made entirely of seasonal allegory.</p>
+        <p>This means that an incursion from the Nine Hells is not something that arrives from far away. It is a neighbour pushing through a wall.</p>
+        <h4>Planar Travel</h4>
+        <p>Proper planar travel means ascending off one planet into the <strong>Silver Deep</strong> — the Astral Plane, the space between the stacked worlds — navigating carefully, and descending to a different coincident expression of the same location. Done correctly, you fly away from material Cruinne and land on the Feywild-planet, or the Hells, or the Shadowfell version of the same place.</p>
+        <p>Drevenmark's skyships <em>fly</em>, but they do not cross planes. They operate below the Silver Deep. True astral vessels capable of planar travel are rarer, more magical, and a prize worth campaigns of their own.</p>
+        <div class="rumour-box">
+          A Drevenmark engineer is reportedly developing a vessel capable of crossing into the Silver Deep. The Wright Assembly has neither funded nor forbidden the project. She says this means she can continue.
+        </div>
+      </div>
+    </div>
+
+    <!-- THREE MOONS -->
+    <div class="section-divider" id="sd2">
+      <span class="section-divider-label">The Three Moons</span>
+      <div class="section-divider-line"></div>
+    </div>
+
+    <div class="entry material" data-reveal>
+      <div class="entry-header">
+        <span class="entry-name">The Three Lanterns</span>
+        <span class="entry-tag">Navigation · Calendar · Omen</span>
+      </div>
+      <div class="entry-body">
+        <p>Three moons orbit Cruinne. Astral navigators have confirmed they appear identically from every coincident plane — which makes them the only fixed reference points for travel through the Silver Deep. They are called the Three Lanterns by those who sail between worlds.</p>
+        <div class="moons-note">
+          <div class="moon-item">
+            <div class="moon-orb moon-maor"></div>
+            <div>
+              <div class="moon-name">Maor — the Lantern</div>
+              <div class="moon-desc">The great white moon. Beloved. Tied to calendars, safe travel, and honest dealing. Oaths sworn beneath a full Maor are held to be binding.</div>
+            </div>
+          </div>
+          <div class="moon-item">
+            <div class="moon-orb moon-crael"></div>
+            <div>
+              <div class="moon-name">Crael — the Ember</div>
+              <div class="moon-desc">Small and red. Ill-omened. Folk wisdom holds that the worst things happen under Crael. Its red light marks nights when old, dangerous things stir.</div>
+            </div>
+          </div>
+          <div class="moon-item">
+            <div class="moon-orb moon-sioth"></div>
+            <div>
+              <div class="moon-name">Síoth — the Ghost Moon</div>
+              <div class="moon-desc">Pale, dim, often invisible for weeks at a time. Associated with the dead, with secrets, and with the Drowned Fifth. Astrologers who chart its true cycle tend to end up either very powerful or very mad.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- THE PLANES -->
+    <div class="section-divider" id="sd3">
+      <span class="section-divider-label">The Known Planes</span>
+      <div class="section-divider-line"></div>
+    </div>
+
+    <div class="entry feywild" data-reveal>
+      <div class="entry-header">
+        <span class="entry-name">The Feywild</span>
+        <span class="entry-epithet">the Summer Planet</span>
+        <span class="entry-tag">Coincident · Bright</span>
+      </div>
+      <div class="entry-body">
+        <p>The fey coincident-world. The same geography as Cruinne, expressed in extremis: more alive, more beautiful, more dangerous, more ruled by feeling than by law. Time moves differently here. Mortals who wander in and return often discover that the world moved on without them.</p>
+        <p>Archfey are the closest thing this plane has to rulers, and they are not a government. They are old, vast, and entirely interested in things that most mortals would not recognise as stakes.</p>
+      </div>
+    </div>
+
+    <div class="entry shadow" data-reveal>
+      <div class="entry-header">
+        <span class="entry-name">The Shadowfell</span>
+        <span class="entry-epithet">the Dark Mirror</span>
+        <span class="entry-tag">Coincident · Dim</span>
+      </div>
+      <div class="entry-body">
+        <p>The shadow coincident-world. The same geography again, this time expressed in absence: colour leached, warmth replaced by a cold that is not quite physical, life present but diminished, the dead closer to the surface in every sense.</p>
+        <p>The Shadowfell does not kill visitors. It simply makes them feel that living is more effort than it appears to be worth. Extended stays are inadvisable.</p>
+      </div>
+    </div>
+
+    <div class="entry elemental" data-reveal>
+      <div class="entry-header">
+        <span class="entry-name">The Elemental Planes</span>
+        <span class="entry-epithet">Fire · Water · Air · Earth</span>
+        <span class="entry-tag">Coincident · Four</span>
+      </div>
+      <div class="entry-body">
+        <p>Four coincident worlds, each expressing the same location as Cruinne through the lens of a single element taken to its absolute. The Elemental Plane of Fire is not a hot place. It is a place where fire is the fundamental truth and everything else is a complication.</p>
+        <p>In Caorth's interior, the boundary between Cruinne and the elemental coincidents has worn thin in places — <strong>elemental wounds</strong> where raw planar energy bleeds through. The genasi communities of the Hollow Reaches live near these wounds, tend them, and know more about their behaviour than anyone else on the Wheel.</p>
+        <h4>Elemental Wounds (Caorth)</h4>
+        <p>Tears in the planar fabric left by some ancient catastrophe. At a stable wound, a traveller can step from Cruinne to the corresponding elemental planet without ascending to the Silver Deep at all. The genasi enclaves classify wounds by stability: <em>settled</em>, <em>breathing</em>, and <em>wandering</em>. No wound is safe during an elemental event.</p>
+        <div class="rumour-box">
+          The oldest elemental wounds — the ones that predate living memory — feel different at their deepest point. Not dangerous. Something older than dangerous. The genasi enclaves call it <em>the old weight</em>. They do not explain further to outsiders.
+        </div>
+      </div>
+    </div>
+
+    <div class="entry hells" data-reveal>
+      <div class="entry-header">
+        <span class="entry-name">The Nine Hells</span>
+        <span class="entry-epithet">the Infernal Coincident</span>
+        <span class="entry-tag">Coincident · Hostile</span>
+      </div>
+      <div class="entry-body">
+        <p>The infernal coincident-world. What the Hells want from Cruinne is a question that has occupied theologians and warlords alike for centuries. The answer is, generally: everything. The boundary between Cruinne and the Hells is the primary reason the gods of the Wheel were built with martial function — holding this line is considered their most important work.</p>
+        <p>Archdevils rule here, ancient and contractually minded. Their interest in bloodlines, pacts, and the long game of mortal obligation is not metaphorical. They genuinely play across generations.</p>
+      </div>
+    </div>
+
+    <div class="entry abyss" data-reveal>
+      <div class="entry-header">
+        <span class="entry-name">The Abyss</span>
+        <span class="entry-epithet">the Demonic Coincident</span>
+        <span class="entry-tag">Coincident · Chaotic</span>
+      </div>
+      <div class="entry-body">
+        <p>The demonic coincident. Where the Hells operate by law and contract, the Abyss operates by hunger and the logic of things that do not stay still long enough to make deals. Demonic incursion into Cruinne is less organised than infernal incursion. It is not, for this reason, less dangerous.</p>
+      </div>
+    </div>
+
+    <div class="entry upper" data-reveal>
+      <div class="entry-header">
+        <span class="entry-name">The Upper Planes</span>
+        <span class="entry-epithet">the Celestial Coincidents</span>
+        <span class="entry-tag">Coincident · Divine</span>
+      </div>
+      <div class="entry-body">
+        <p>The heavens. Multiple coincident-worlds aligned to goodness, light, law, and various combinations thereof. Celestials originate here. The Upper Planes are generally regarded as benign, though the nature of beings vast enough to embody abstract virtues means "benign" covers a wide range of experience from a mortal's perspective.</p>
+      </div>
+    </div>
+
+    <!-- ASTRAL -->
+    <div class="section-divider" id="sd4">
+      <span class="section-divider-label">Between Everything</span>
+      <div class="section-divider-line"></div>
+    </div>
+
+    <div class="entry astral" data-reveal>
+      <div class="entry-header">
+        <span class="entry-name">The Silver Deep</span>
+        <span class="entry-epithet">the Astral Plane</span>
+        <span class="entry-tag">Between All Planes</span>
+      </div>
+      <div class="entry-body">
+        <p>The space around and between the stacked coincident worlds. Not a plane in the same sense as the others — it is the medium through which planar travel moves, the ocean between the planets. Silver, vast, and navigable only with fixed reference points.</p>
+        <p>The Three Moons of Cruinne appear identically from the Silver Deep and from every coincident planet. This is why they are used for navigation. Nobody entirely agrees why this is the case.</p>
+        <p>Beyond the immediately accessible Silver Deep, stranger things move. The further from any planet you travel, the less Cruinne's cosmological rules appear to apply. Most astral navigators do not travel far from the coincident stack. The ones who do tend to return changed, if they return.</p>
+      </div>
+    </div>
+
+    <!-- UNKNOWN -->
+    <div class="section-divider" id="sd5">
+      <span class="section-divider-label">Unconfirmed</span>
+      <div class="section-divider-line"></div>
+    </div>
+
+    <div class="unknown-block" data-reveal>
+      <strong>Beyond Current Knowledge</strong>
+      Further planar entries will be added as information is confirmed. Several questions remain open. They will not be answered here until they are answered in the world.
+    </div>
+
+  </div><!-- /content -->
+
+  <footer>
+    Codex Cruinnae &nbsp;·&nbsp; Planes &nbsp;·&nbsp; Updated as knowledge is gained
+  </footer>
+</div>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08 });
+
+  document.querySelectorAll('[data-reveal], .section-divider').forEach((el, i) => {
+    if (el.hasAttribute('data-reveal')) {
+      el.style.transitionDelay = `${(i % 3) * 0.06}s`;
+    }
+    observer.observe(el);
+  });
+</script>
+
+</body>
+</html>

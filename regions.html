@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Regions — Cruinne</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Map graphic — simplified SVG wheel diagram */
+    .wheel-diagram {
+      display: flex;
+      justify-content: center;
+      padding: 2.5rem 0 1.5rem;
+      opacity: 0;
+      animation: revealFade 1s ease 0.6s forwards;
+    }
+    .wheel-diagram svg { max-width: 280px; width: 100%; height: auto; }
+
+    /* colour-coded left border per region */
+    .entry.caorth    { border-left-color: #3a7a3a; }
+    .entry.suvaria   { border-left-color: #a07828; }
+    .entry.cindreach { border-left-color: #8a3818; }
+    .entry.drevenmark{ border-left-color: #706028; }
+    .entry.cradle    { border-left-color: #1a5080; }
+    .entry.wrack     { border-left-color: #303840; }
+
+    .entry.caorth:hover    { border-left-color: #5ab05a; box-shadow: -2px 0 20px rgba(80,160,80,0.1); }
+    .entry.suvaria:hover   { border-left-color: #c8a040; box-shadow: -2px 0 20px rgba(200,160,64,0.1); }
+    .entry.cindreach:hover { border-left-color: #c06030; box-shadow: -2px 0 20px rgba(192,80,40,0.1); }
+    .entry.drevenmark:hover{ border-left-color: #b09040; box-shadow: -2px 0 20px rgba(160,130,60,0.1); }
+    .entry.cradle:hover    { border-left-color: #3080c0; box-shadow: -2px 0 20px rgba(40,100,200,0.1); }
+    .entry.wrack:hover     { border-left-color: #506070; box-shadow: -2px 0 20px rgba(60,80,100,0.1); }
+
+    .region-dot {
+      display: inline-block;
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      margin-right: 0.5rem;
+      vertical-align: middle;
+      flex-shrink: 0;
+    }
+    .dot-caorth    { background: #5ab05a; box-shadow: 0 0 6px rgba(80,160,80,0.5); }
+    .dot-suvaria   { background: #c8a040; box-shadow: 0 0 6px rgba(200,160,64,0.5); }
+    .dot-cindreach { background: #c06030; box-shadow: 0 0 6px rgba(192,80,40,0.5); }
+    .dot-drevenmark{ background: #b09040; box-shadow: 0 0 6px rgba(160,130,60,0.5); }
+    .dot-cradle    { background: #3080c0; box-shadow: 0 0 6px rgba(40,100,200,0.5); }
+    .dot-wrack     { background: #506070; box-shadow: 0 0 6px rgba(80,100,120,0.4); }
+
+    .entry-name-row {
+      display: flex;
+      align-items: center;
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVIGATION -->
+<nav>
+  <a class="nav-brand" href="index.html">Cruinne</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="regions.html" class="active">Regions</a></li>
+    <li><a href="planes.html">Planes</a></li>
+  </ul>
+</nav>
+
+<div class="page">
+
+  <!-- PAGE HERO -->
+  <div class="page-hero">
+    <div class="page-label">Codex Cruinnae · Geography</div>
+    <h1 class="page-title">Regions</h1>
+    <p class="page-intro">The inhabited world is a ring of four continents around a warm central sea. Beyond the ring: deep ocean, poor charts, and fewer returns.</p>
+  </div>
+
+  <!-- WHEEL DIAGRAM -->
+  <div class="wheel-diagram">
+    <svg viewBox="0 0 280 280" xmlns="http://www.w3.org/2000/svg" aria-label="Map of the Wheel">
+      <!-- outer ring -->
+      <circle cx="140" cy="140" r="130" stroke="rgba(200,160,64,0.15)" stroke-width="1" fill="none"/>
+      <circle cx="140" cy="140" r="100" stroke="rgba(200,160,64,0.08)" stroke-width="1" fill="none"/>
+      <!-- cradle sea -->
+      <ellipse cx="140" cy="140" rx="42" ry="42" fill="rgba(26,80,128,0.25)" stroke="rgba(40,100,200,0.3)" stroke-width="1"/>
+      <text x="140" y="136" text-anchor="middle" font-family="'Cinzel',serif" font-size="5.5" fill="rgba(160,200,255,0.7)" letter-spacing="1">CRADLE SEA</text>
+      <text x="140" y="145" text-anchor="middle" font-family="'EB Garamond',serif" font-size="4.5" fill="rgba(100,150,200,0.5)" font-style="italic">the Hub</text>
+      <!-- Caorth NW -->
+      <ellipse cx="90" cy="90" rx="44" ry="36" fill="rgba(42,90,42,0.3)" stroke="rgba(80,160,80,0.35)" stroke-width="1.5"/>
+      <text x="90" y="87" text-anchor="middle" font-family="'Cinzel Decorative',serif" font-size="6" fill="rgba(140,220,140,0.9)">Caorth</text>
+      <text x="90" y="96" text-anchor="middle" font-family="'EB Garamond',serif" font-size="4.5" fill="rgba(100,180,100,0.55)" font-style="italic">the Green Vast</text>
+      <!-- Suvaria NE -->
+      <ellipse cx="194" cy="88" rx="38" ry="32" fill="rgba(138,90,16,0.28)" stroke="rgba(200,160,64,0.35)" stroke-width="1.5"/>
+      <text x="194" y="85" text-anchor="middle" font-family="'Cinzel Decorative',serif" font-size="6" fill="rgba(220,180,80,0.9)">Suvaria</text>
+      <text x="194" y="94" text-anchor="middle" font-family="'EB Garamond',serif" font-size="4.5" fill="rgba(180,140,60,0.55)" font-style="italic">the Goldfields</text>
+      <!-- Cindreach SW -->
+      <ellipse cx="86" cy="196" rx="40" ry="34" fill="rgba(122,58,24,0.28)" stroke="rgba(192,80,40,0.35)" stroke-width="1.5"/>
+      <text x="86" y="193" text-anchor="middle" font-family="'Cinzel Decorative',serif" font-size="5.5" fill="rgba(220,120,80,0.9)">Cindreach</text>
+      <text x="86" y="202" text-anchor="middle" font-family="'EB Garamond',serif" font-size="4.5" fill="rgba(180,90,60,0.55)" font-style="italic">the Burnt Reach</text>
+      <!-- Drevenmark SE -->
+      <ellipse cx="194" cy="196" rx="34" ry="30" fill="rgba(100,80,20,0.28)" stroke="rgba(160,130,60,0.35)" stroke-width="1.5"/>
+      <text x="194" y="193" text-anchor="middle" font-family="'Cinzel Decorative',serif" font-size="5.2" fill="rgba(200,170,80,0.9)">Drevenmark</text>
+      <text x="194" y="202" text-anchor="middle" font-family="'EB Garamond',serif" font-size="4.5" fill="rgba(160,130,60,0.55)" font-style="italic">the Brasslands</text>
+      <!-- compass -->
+      <text x="140" y="20" text-anchor="middle" font-family="'Cinzel',serif" font-size="7" fill="rgba(200,160,64,0.4)">N</text>
+      <text x="140" y="270" text-anchor="middle" font-family="'Cinzel',serif" font-size="7" fill="rgba(200,160,64,0.4)">S</text>
+      <text x="14" y="144" text-anchor="middle" font-family="'Cinzel',serif" font-size="7" fill="rgba(200,160,64,0.4)">W</text>
+      <text x="268" y="144" text-anchor="middle" font-family="'Cinzel',serif" font-size="7" fill="rgba(200,160,64,0.4)">E</text>
+      <!-- Wrack label -->
+      <text x="140" y="258" text-anchor="middle" font-family="'EB Garamond',serif" font-size="5" fill="rgba(80,100,120,0.5)" font-style="italic">the Wrack</text>
+    </svg>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <div class="codex-note">
+      <strong>Codex Note</strong>
+      This record contains what is known, confirmed, or strongly suspected. Entries will expand as knowledge is gained. Where details are absent, they have not yet been learned.
+    </div>
+
+    <!-- THE WHEEL -->
+    <div class="section-divider" id="sd1">
+      <span class="section-divider-label">The Four Continents</span>
+      <div class="section-divider-line"></div>
+    </div>
+
+    <!-- CAORTH -->
+    <div class="entry caorth" data-reveal>
+      <div class="entry-header">
+        <div class="entry-name-row">
+          <span class="region-dot dot-caorth"></span>
+          <span class="entry-name">Caorth</span>
+        </div>
+        <span class="entry-epithet">the Green Vast</span>
+        <span class="entry-tag">Northwest · Largest</span>
+      </div>
+      <div class="entry-body">
+        <p>The largest continent by a considerable margin. Caorth is dominated by mountains and jungle so dense that major cities have been built in the canopy rather than beneath it. Its coastal cities — of which <strong>Tidemarch</strong> is by far the largest — are cosmopolitan, trade-hungry, and home to representatives from every other continent on the Wheel.</p>
+        <p>The deeper interior, the <strong>Hollow Reaches</strong>, grows steadily less welcoming the further from the coast you travel. The peoples of the deep jungle — sometimes called the Deepkin by outsiders, a term they have not been consulted on — keep their own counsel.</p>
+        <h4>Notable Locations</h4>
+        <p><strong>Tidemarch</strong> — The great port city and Caorth's window to the Wheel. Governed by a Triumvirate of three seats: elf, dwarf, and genasi. Half its population is always passing through.</p>
+        <p><strong>The Sorrowing Peaks</strong> — A mountain range in the interior marked on every map as <em>sacred · forbidden</em>. Expeditions have gone in. None have published their findings.</p>
+        <div class="rumour-box">
+          The elven canopy-cities of the Hollow Reaches are said to be older than the current gods. The elves neither confirm nor deny this. They find the question impolite.
+        </div>
+      </div>
+    </div>
+
+    <!-- SUVARIA -->
+    <div class="entry suvaria" data-reveal>
+      <div class="entry-header">
+        <div class="entry-name-row">
+          <span class="region-dot dot-suvaria"></span>
+          <span class="entry-name">Suvaria</span>
+        </div>
+        <span class="entry-epithet">the Goldfields</span>
+        <span class="entry-tag">Northeast · Agricultural Heartland</span>
+      </div>
+      <div class="entry-body">
+        <p>Sprawling agricultural country, rich, flat, and at perpetual political war with itself — though a very civilised sort of war conducted through debts, marriages, and grain prices rather than armies. Dominated by four major city-states: <strong>Castrel</strong>, <strong>Highmere</strong>, <strong>Garran</strong>, and <strong>Vossing</strong>.</p>
+        <p>A continent-wide governing body, the <strong>Grand Concord</strong>, convenes representatives from all four city-states and reliably achieves very little. Locals call it the Empty Table. This is considered a neutral description rather than a criticism.</p>
+        <h4>The City-States</h4>
+        <p><strong>Castrel</strong> — Nominally democratic. Two dominant parties trading power through elections, each blaming the other for everything. The system is approaching the point where it cannot hold.</p>
+        <p><strong>Highmere</strong> — A genuine mass democracy with hundreds of elected representatives, which means it cannot agree on anything — until threatened, at which point it becomes unanimous and immovable.</p>
+        <p><strong>Garran</strong> — A military regime that funds itself through convict labour. The list of things one can be arrested for grows quietly.</p>
+        <p><strong>Vossing</strong> — A hereditary monarchy with a genuinely good king. <strong>Aldric Vane</strong> is wise, just, and beloved. He has no heir. He is old.</p>
+      </div>
+    </div>
+
+    <!-- CINDREACH -->
+    <div class="entry cindreach" data-reveal>
+      <div class="entry-header">
+        <div class="entry-name-row">
+          <span class="region-dot dot-cindreach"></span>
+          <span class="entry-name">Cindreach</span>
+        </div>
+        <span class="entry-epithet">the Burnt Reach</span>
+        <span class="entry-tag">Southwest · Magical Jurisdiction</span>
+      </div>
+      <div class="entry-body">
+        <p>Where magic went to graduate, build institutions, and leave the scorch marks as a lesson. The landscape is igneous mountains, barren bedrock, magical desert, and zones where spells from wars fought centuries ago are still, technically, ongoing.</p>
+        <p>Power runs through two rival institutions: the <strong>Obsidian College</strong> on the western coast and the <strong>Glass Conclave</strong> on the eastern. Both administer the <strong>Geas</strong> — a real, inescapable magical compulsion binding graduates to pay a heavy share of their earnings back to the institution that trained them, for life.</p>
+        <h4>Notable Locations</h4>
+        <p><strong>The Snarl</strong> — A region of blasted, magically contaminated wasteland in the interior. Growing at approximately half a mile per decade. Some believe it is aware. The academies describe it as a natural hazard. This is technically true and almost entirely misleading.</p>
+        <div class="rumour-box">
+          Some Cindreach scholars have begun to quietly suggest that certain divine forces are not, strictly speaking, the original source of the magic they are associated with. These scholars are notably reluctant to give their full names.
+        </div>
+      </div>
+    </div>
+
+    <!-- DREVENMARK -->
+    <div class="entry drevenmark" data-reveal>
+      <div class="entry-header">
+        <div class="entry-name-row">
+          <span class="region-dot dot-drevenmark"></span>
+          <span class="entry-name">Drevenmark</span>
+        </div>
+        <span class="entry-epithet">the Brasslands</span>
+        <span class="entry-tag">Southeast · Most Advanced Technology</span>
+      </div>
+      <div class="entry-body">
+        <p>The smallest continent and the loudest. Drevenmark solved the problem of limited agricultural land by simply not growing its own food, importing everything in exchange for the one thing it exports in quantity: things that work.</p>
+        <p>Skyships. Steam engines. Firearms of improving sophistication. Clockwork of extraordinary intricacy. The continent is governed by the <strong>Wright Assembly</strong>, whose seats belong to the trades — Smiths, Builders, Alchemists, Skywrights, Powdersmiths, Clockwrights. The elected chair is the <strong>Highwright</strong>.</p>
+        <h4>Notable Locations</h4>
+        <p><strong>Coghaven</strong> — The capital. Foundries, sky-docks, perpetual noise, and a population that considers any problem solvable if you apply sufficient ingenuity and are willing to get soot on your hands.</p>
+        <div class="rumour-box">
+          A Drevenmark engineer has reportedly been working on a vessel capable of ascending beyond the atmospheric ceiling — into the Silver Deep itself. The Wright Assembly has neither funded nor forbidden the project.
+        </div>
+      </div>
+    </div>
+
+    <!-- CRADLE SEA -->
+    <div class="section-divider" id="sd2">
+      <span class="section-divider-label">The Hub</span>
+      <div class="section-divider-line"></div>
+    </div>
+
+    <div class="entry cradle" data-reveal>
+      <div class="entry-header">
+        <div class="entry-name-row">
+          <span class="region-dot dot-cradle"></span>
+          <span class="entry-name">The Cradle Sea</span>
+        </div>
+        <span class="entry-epithet">the Hub</span>
+        <span class="entry-tag">Central · Oldest Inhabitants</span>
+      </div>
+      <div class="entry-body">
+        <p>The shallow, warm, extraordinarily fertile body of water at the centre of the Wheel. It is not empty. Several substantial settlements of water-dwelling peoples — tritons, merfolk, sea elves, and others — thrive here, and have been doing so considerably longer than most surface nations care to acknowledge.</p>
+        <p>These peoples form the <strong>Coral Concord</strong> — an arrangement the surface powers have been trying to formally court, absorb, or diplomatically outmanoeuvre for generations, without success. The Concord has declined every formal alliance. Including, recently, all four continental powers simultaneously.</p>
+        <h4>Settlements</h4>
+        <p><strong>Glasreef</strong> — Built at the surface layer of the Cradle Sea. Not carved — grown. Every building, street, and spire is living coral, shaped over generations. It glitters. This is not metaphor.</p>
+        <p><strong>Pelagmere</strong> — A vast warm lagoon scattered with hundreds of small islands. No central government, no skyline. A Dragon Turtle called <strong>Vethara</strong> lives in the deep. The story of the pirate ship that tried to resolve the Concord's fishing policy by force is told in ports from Tidemarch to Coghaven. It ends badly for the pirates. The Pelagmere residents who watched describe it as the time the Old One was disturbed and suggest visitors not disturb it.</p>
+        <div class="rumour-box">
+          The Coral Concord has a saying: <em>"Every god has its day."</em> They have been saying it for a very long time.
+        </div>
+      </div>
+    </div>
+
+    <!-- THE WRACK -->
+    <div class="section-divider" id="sd3">
+      <span class="section-divider-label">Beyond the Wheel</span>
+      <div class="section-divider-line"></div>
+    </div>
+
+    <div class="entry wrack" data-reveal>
+      <div class="entry-header">
+        <div class="entry-name-row">
+          <span class="region-dot dot-wrack"></span>
+          <span class="entry-name">The Wrack</span>
+        </div>
+        <span class="entry-epithet">deep · uncharted · storms without mercy</span>
+        <span class="entry-tag">Beyond the Wheel</span>
+      </div>
+      <div class="entry-body">
+        <p>The deep, treacherous, poorly-charted ocean covering the rest of the globe. Sailors who venture too far into the Wrack tend not to come back.</p>
+        <p>Persistent rumour holds that a <strong>fifth continent</strong> once sat in these waters and was lost in an event that rewrote the shape of the world. No one agrees on its name. The fragments that survive call it <strong>Velmaren</strong>. Or simply: the Drowned Fifth.</p>
+        <div class="rumour-box">
+          Velmaren is not entirely drowned. This is a rumour. It is also, reportedly, a rumour that certain people are spending significant money to suppress.
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+
+  <footer>
+    Codex Cruinnae &nbsp;·&nbsp; Regions &nbsp;·&nbsp; Updated as knowledge is gained
+  </footer>
+</div>
+
+<script>
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08 });
+
+  document.querySelectorAll('[data-reveal], .section-divider').forEach((el, i) => {
+    if (el.hasAttribute('data-reveal')) {
+      el.style.transitionDelay = `${(i % 4) * 0.05}s`;
+    }
+    observer.observe(el);
+  });
+</script>
+
+</body>
+</html>
