@@ -214,8 +214,8 @@ nav {
 .lore-card {
   display: block;
   text-decoration: none;
-  width: 260px;
-  padding: 2rem 1.8rem 2.2rem;
+  width: 420px;
+  padding: 2rem 2.5rem 2.5rem;
   background: rgba(26,18,8,0.8);
   border: 1px solid var(--border);
   border-top: 2px solid var(--gold-dim);
