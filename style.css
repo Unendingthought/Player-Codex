@@ -396,7 +396,7 @@ nav {
 .entry-body p {
   color: var(--text-primary);
   margin-bottom: 1.1rem;
-  font-size: 1rem;     /* 40px */
+  font-size: 0.75rem;     /* 30px */
   line-height: 1.9;
   text-align: left;
 }
@@ -404,7 +404,7 @@ nav {
 
 .entry-body h4 {
   font-family: var(--font-heading);
-  font-size: 0.52rem;    /* ~15.6px */
+  font-size: 0.40rem;    /* */
   letter-spacing: 3px;
   color: var(--gold-dim);
   text-transform: uppercase;
@@ -418,7 +418,7 @@ nav {
   border-left: 3px solid var(--ember-dim);
   padding: 1.1rem 1.4rem;
   margin-top: 1.2rem;
-  font-size: 1.05rem;    /* 21px */
+  font-size: .80rem;    /* 17px */
   font-style: italic;
   color: #d4a870;
 }
@@ -427,7 +427,7 @@ nav {
   display: block;
   font-family: var(--font-heading);
   font-style: normal;
-  font-size: 0.45rem;    /* ~13.5px */
+  font-size: 0.34rem;    /* ~10.5px */
   letter-spacing: 3px;
   color: var(--ember-dim);
   text-transform: uppercase;
@@ -466,7 +466,7 @@ nav {
   border-top: 2px solid var(--gold-dim);
   padding: 1.4rem 1.8rem;
   margin-bottom: 2.5rem;
-  font-size: 1.05rem;    /* 21px */
+  font-size: 0.75rem;    /* 16px */
   color: var(--text-primary);
   font-style: italic;
 }
